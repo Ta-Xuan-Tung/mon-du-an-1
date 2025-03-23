@@ -11,10 +11,10 @@ const PORT = 3306;
 const ROOT_DIR = __DIR__ . "/";
 
 // dường dãn website
-const ROOT_URL = "http://localhost/duan_1/"
+const ROOT_URL = "http://localhost/duan1/";
 
 // đường dẫn website đen admin
-const ADDMIN_URL = ROOT_URL . "admin/"
+const ADMIN_URL = ROOT_URL . "admin/";
 
 
 ?>

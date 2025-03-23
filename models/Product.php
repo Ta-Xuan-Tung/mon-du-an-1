@@ -37,7 +37,7 @@
         public function update ($id,$data){
             $sql = "UPDATE products SET name = :name, image = :image, price = :price, description = :description, content = :content, status = :status, category_id = :category_id WHERE id = :id";
             $stmt = $this->conn->prepare($sql);
-            thêm id vào mảng data
+            // thêm id vào mảng data
             $data['id'] = $id;
             $stmt -> execute($data);
         }
