@@ -1,6 +1,11 @@
 <?php include_once ROOT_DIR . "views/admin/header.php" ?>
 
 <div class="container">
+<?php if($message != '') : ?>
+        <div class="alert alert-success mt-3">
+            <?= $message ?>
+        </div>
+    <?php endif ?>
     <form action="<?= ADMIN_URL . '?ctl=updatesp' ?>" method="post" enctype="multipart/form-data">
         <div class="mb-3">
             <label for="" class="form-label">Tên sản phẩm</label>

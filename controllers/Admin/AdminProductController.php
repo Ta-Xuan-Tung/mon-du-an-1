@@ -43,7 +43,11 @@ class AdminproductController {
         $id = $_GET['id'];
         $product = (new Product)->find($id);
         $categories = (new Category)->all();
-        return view('admin.products.edit', compact('product', 'categories'));
+
+        // lấy session flash message
+        $message = session_flash('message');
+
+        return view('admin.products.edit', compact('product', 'categories', 'message'));
     }
     
     //Cập nhật cơ sở dữ liệu
