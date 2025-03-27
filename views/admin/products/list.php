@@ -32,8 +32,8 @@
       <td><?= $pro['status']?'Đang kinh doanh': 'Ngừng kinh doanh' ?></td>
       <td><?= $pro['cate_name'] ?></td>
       <td>
-        <a href="<?= ADMIN_URL . '?ctl=editsp&id'. $pto['id']?>" class="btn btn-primary">Sửa</a>
-        <a href="<?= ADMIN_URL . '?ctl=deletesp&id'. $pto['id']?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc chăn muốn xóa?')">Xóa</a>
+        <a href="<?= ADMIN_URL . '?ctl=editsp&id='. $pro['id']?>" class="btn btn-primary">Sửa</a>
+        <a href="<?= ADMIN_URL . '?ctl=deletesp&id='. $pro['id']?>" class="btn btn-danger" onclick="return confirm('Bạn có chắc chăn muốn xóa?')">Xóa</a>
       </td>
     </tr>
     <?php endforeach ?>
