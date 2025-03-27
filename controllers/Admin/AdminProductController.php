@@ -40,12 +40,31 @@ class AdminproductController {
 
     //form sửa
     public function edit(){
-        
+        $id = $_GET['id'];
+        $product = (new Product)->find($id);
+        $categories = (new Category)->all();
+        return view('admin.products.edit', compact('product', 'categories'));
     }
     
     //Cập nhật cơ sở dữ liệu
-    public function uppdate(){
+    public function update(){
+        $data = $_POST;
 
+    //neu thay doi hinh anh
+    $file = $_FILES['image'];
+    if ($file['size'] > 0) {
+        $image = "images/" . $file['name'];
+        move_uploaded_file($file['tmp_name'], ROOT_DIR .$image);
+        //cap nhat image vao mang date
+        $data['image'] = $image;
+    }
+    //Luu data vao CSDL
+    (new Product)->update($data['id'], $data);
+
+    $_SESSION['message'] = "Cap nhat du lieu thanh cong" ;
+
+    header("Location: " . ADMIN_URL . "?ctl=editsp&id=" . $data['id']);
+    die;
     }
 
     //Xóa
