@@ -73,6 +73,10 @@ class AdminproductController {
 
     //Xóa
     public function delete(){
-
+        $id = $_GET['id'];
+    (new Product)->delete($id);
+    $_SESSION['mesage'] = 'Xoa du lieu thanh cong';
+    header('Location: ' . ADMIN_URL . '?ctl=listsp');
+    die;
     }
 }
