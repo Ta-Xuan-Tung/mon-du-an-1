@@ -58,6 +58,7 @@
             $sql = "SELECT p.*, cate_name FROM products p Join categories c ON p.category_id = c.id WHERE p.id = :id";
             $stmt = $this->conn->prepare($sql);
             $stmt -> execute(['id' => $id]);
+            return $stmt->fetch(PDO::FETCH_ASSOC);
         }
 
 
