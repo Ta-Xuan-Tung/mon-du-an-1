@@ -27,6 +27,9 @@
         <li class="nav-item">
           <a class="nav-link" href="<?= ADMIN_URL . '?ctl=listsp'?>">Sản Phẩm</a>
         </li>
+        <li class="nav-item">
+          <a class="nav-link" href="<?= ADMIN_URL . '?ctl=listuser'?>">Người Dùng</a>
+        </li>
         <li class="nav-item dropdown">
           <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
             Dropdown
