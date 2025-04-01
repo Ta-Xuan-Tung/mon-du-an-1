@@ -22,6 +22,15 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        //lấy dữ liệu cho trang chủ
+
+        public function listProductInCategoryHome($id){
+            $sql = "SELECT p.*, cate_name FROM products p Join categories c ON p.category_id = c.id WHERE c.id = :id ORDER BY id DESC LIMIT 4";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['id' => $id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
+
 
         // thêm dữ liệu
 
