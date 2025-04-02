@@ -4,8 +4,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Bán hàng - <?= $tittle ?? ''?></title>
+    <title>Bán hàng - <?= $title ?? ''?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="<?= ROOT_URL ?>css/detail.css">
 </head>
 
 <body>
@@ -29,8 +30,11 @@
             Sản phẩm
           </a>
           <ul class="dropdown-menu">
-            <li><a class="dropdown-item" href="#">Action</a></li>
+            <?php foreach($categories as $cate) :  ?>
+            <li><a class="dropdown-item" href="<?= ROOT_URL . '?ctl=category&id=' . $cate['id'] ?>"><?= $cate['cate_name'] ?></a></li>
+            <?php endforeach ?>
           </ul>
+          
         </li>
       </ul>
       <form class="d-flex" role="search">

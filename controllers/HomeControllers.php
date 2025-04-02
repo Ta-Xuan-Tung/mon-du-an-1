@@ -8,11 +8,12 @@
 
 
             // Tiêu đề
-            $tittle = 'Trang chủ webiste bán giày';
-            
+            $title = 'Trang chủ webiste bán giày';
+            $categories = (new Category) ->all(); // lấy danh sách danh mục
 
 
-            return view('clients.home', compact('nikes', 'adidass', 'tittle'));
+
+            return view('clients.home', compact('nikes', 'adidass', 'title', 'categories'));
         }
     }
 ?>

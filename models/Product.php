@@ -31,6 +31,15 @@
             return $stmt->fetchAll(PDO::FETCH_ASSOC);
         }
 
+        //sản phẩm liên quan
+        // category_id là mã danh mục
+        // id là mã sản phẩm
+        public function listProductRelead($category_id, $id) {
+            $sql = "SELECT p.*, cate_name FROM products p Join categories c ON p.category_id = c.id WHERE c.id = :category_id AND p.id <> :id ORDER BY id DESC LIMIT 4";
+            $stmt = $this->conn->prepare($sql);
+            $stmt->execute(['id' => $id, 'category_id' => $category_id]);
+            return $stmt->fetchAll(PDO::FETCH_ASSOC);
+        }
 
         // thêm dữ liệu
 

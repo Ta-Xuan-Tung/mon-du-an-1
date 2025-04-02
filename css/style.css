@@ -1,0 +1,101 @@
+/* Tổng quan */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f8f9fa;
+}
+
+/* Container chính */
+.container {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Hình ảnh sản phẩm */
+.img-fluid {
+    border-radius: 10px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề sản phẩm */
+h1.display-5 {
+    color: #333;
+    font-weight: bold;
+}
+
+/* Giá sản phẩm */
+h3.text-danger {
+    font-size: 1.8rem;
+    font-weight: bold;
+}
+
+/* Nút thêm vào giỏ hàng */
+.btn-primary {
+    background-color: #28a745;
+    border: none;
+    transition: all 0.3s ease-in-out;
+}
+
+.btn-primary:hover {
+    background-color: #218838;
+}
+
+/* Badge trạng thái */
+.badge {
+    font-size: 1rem;
+    padding: 5px 10px;
+}
+
+/* Mô tả sản phẩm */
+p {
+    font-size: 1.1rem;
+    color: #555;
+}
+
+/* Sản phẩm liên quan */
+.product-box {
+    background: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    text-align: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.product-box:hover {
+    transform: translateY(-5px);
+}
+
+.product-img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+}
+
+.product-name {
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #333;
+}
+
+.product-price {
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #dc3545;
+}
+
+.product-buttons .btn {
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .col-md-6 {
+        text-align: center;
+    }
+    .img-fluid {
+        width: 80%;
+    }
+}
