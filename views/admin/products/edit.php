@@ -34,6 +34,10 @@
             <input type="number" name="price" step="0.1" class="form-control" value="<?= $product['price']?>" id="">
         </div>
         <div class="mb-3">
+            <label for="" class="form-label">Số lượng</label>
+            <input type="number" name="quantity"  class="form-control" value="<?= $product['quantity']?>" >
+        </div>
+        <div class="mb-3">
             <label for="" class="form-label">Trạng thái</label>
             <input type="radio" name="status" value="1" <?= $product['status'] ? 'checked' : ''  ?> > Đang kinh doanh
             <input type="radio" name="status" value="0" <?= $product['status'] ==0 ? 'checked' : ''  ?>> Ngừng kinh doanh

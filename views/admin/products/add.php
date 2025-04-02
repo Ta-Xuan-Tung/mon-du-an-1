@@ -25,6 +25,10 @@
             <input type="number" name="price" step="0.1" class="form-control" id="">
         </div>
         <div class="mb-3">
+            <label for="" class="form-label">Số lượng</label>
+            <input type="number" name="quantity"  class="form-control" id="">
+        </div>
+        <div class="mb-3">
             <label for="" class="form-label">Trạng thái</label>
             <input type="radio" name="status" value="1" checked> Đang kinh doanh
             <input type="radio" name="status" value="0" id=""> Ngừng kinh doanh

@@ -13,6 +13,7 @@
       <th scope="col">Tên sản phẩm</th>
       <th scope="col">Hình ảnh</th>
       <th scope="col">Giá</th>
+      <th scope="col">Số lượng</th>
       <th scope="col">Trạng thái</th>
       <th scope="col">Danh mục</th>
       <th scope="col">
@@ -29,6 +30,7 @@
         <img src="<?= ROOT_URL . $pro['image']?>" width="60"  alt=""> 
       </td>
       <td><?= number_format($pro['price']) ?> VNĐ</td>
+      <td><?= $pro['quantity'] ?></td>
       <td><?= $pro['status']?'Đang kinh doanh': 'Ngừng kinh doanh' ?></td>
       <td><?= $pro['cate_name'] ?></td>
       <td>
