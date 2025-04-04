@@ -6,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bán hàng - <?= $title ?? ''?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="<?= ROOT_URL ?>css/detail.css">
 </head>
 
@@ -34,7 +35,37 @@
             <li><a class="dropdown-item" href="<?= ROOT_URL . '?ctl=category&id=' . $cate['id'] ?>"><?= $cate['cate_name'] ?></a></li>
             <?php endforeach ?>
           </ul>
-          
+        </li>
+        <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="<?= ROOT_URL ?>" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+          <i class="fa-solid fa-user"></i>
+          <?= $_SESSION['user']['fullname'] ?? '' ?>
+        </a>
+          <ul class="dropdown-menu">
+            <?php if (isset($_SESSION['user'])) : ?>
+            <li>
+              <a class="dropdown-item" href="<?= ROOT_URL ?>">
+                Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="<?= ROOT_URL . '?ctl=logout' ?>">
+                logout
+              </a>
+            </li>
+            <?php else : ?>
+              <li>
+              <a class="dropdown-item" href="<?= ROOT_URL . '?ctl=login' ?>">
+                Đăng nhập
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item" href="<?= ROOT_URL . '?ctl=register' ?>">
+                Đăng ký
+              </a>
+            </li>
+            <?php endif ?>
+          </ul>
         </li>
       </ul>
       <form class="d-flex" role="search">
