@@ -27,7 +27,7 @@
             </p>
             <!-- nút thêm giỏ hàng -->
              <div class="mt-4">
-                    <a class="btn btn-primary btn-lg">
+                    <a href="<?= ROOT_URL . '?ctl=add-cart&id=' . $product  ['id'] ?>" class="btn btn-primary btn-lg"  >
                         <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
                     </a>
              </div>

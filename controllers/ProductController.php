@@ -26,6 +26,11 @@
       
         // danh sách sản phẩm liên quan
         $productReleads = (new Product)-> listProductRelead($product['category_id'],$id);
+        
+        //Lưu thông tin URI vào SESSION
+        $_SESSION['URI'] = $_SERVER['REQUEST_URI'];
+        
+        $_SESSION['totalQuantity'] = (new CartController)->totalSumQuantity();
 
         return view('clients.products.detail', compact('product', 'title', 'categories', 'productReleads'));
     }
