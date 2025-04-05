@@ -45,10 +45,10 @@ class AuthControllers {
                     $_SESSION['user'] = $user;
                     //nếu role = admin, vào admin, ngược lại vào trang chủ
                     if($user['role'] == 'admin'){
-                        header("Loaction: ". ADMIN.URL );
+                        header("Location: " . ROOT_URL . "/admin");
                         die;
                     }
-                    header("Loaction: ". ROOT.URL );
+                    header("Location: ". ROOT.URL );
                         die;
                 }else{
                     $error = "Email hoặc Mật khẩu không đúng!"; 
@@ -67,4 +67,17 @@ class AuthControllers {
         header('Location: ' . ROOT_URL . '?ctl=login');
         die;
     }
-}
+
+    public function index(){
+        $users = (new User)->all();
+        return view('admin.users.list', compact('users'));
+    }
+
+    public function updateActive(){
+        $data = $_POST;
+
+        $data['active'] = $data['active']? 0 : 1;
+        (new User)->updateActive($data['id'], $data['active']);
+        return header('Location: ' . ADMIN_URL . '?ctl=listuser');
+    }
+};

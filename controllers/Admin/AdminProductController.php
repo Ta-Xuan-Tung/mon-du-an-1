@@ -2,6 +2,12 @@
 
 class AdminproductController {
 
+    public function __construct(){
+        $user= $_SESSION['user'] ?? [];
+        if(!$user || $user['role'] != 'admin'){
+            return header('location: ' . ROOT_URL);
+        }
+    }
     // hiển thị danh sách
     public function index() {
         $products = (new Product)-> all();

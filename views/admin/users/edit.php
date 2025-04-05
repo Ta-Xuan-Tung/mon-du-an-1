@@ -1,4 +1,4 @@
-<?php include_once ROOT_DIR . "views/clients/header.php" ?>
+<?php include_once ROOT_DIR . "views/admin/header.php" ?>
 
 <div class="container mt-5">
     <div class="row justify-content-center">
@@ -6,18 +6,10 @@
 
             <div class="container">
                 <h2>Đăng ký</h2>
-                <form action="<?= ROOT_URL . '?ctl=register'?>" method="POST">
+                <form action="<?= ADMIN_URL . '?ctl=updateuser'?>" method="POST">
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Họ Tên</label>
-                        <input type="text" class="form-control" name="fullname" placeholde="Nhập họ tên">
-                    </div>
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholde="Nhập email">
-                    </div>
-                    <div class="mb-3">
-                        <label for="password" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" name="password" placeholde="Nhập mật khẩu"> 
+                        <input type="text" class="form-control" name="fullname" values="<?= $user['fullname'] ?>">
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
@@ -32,6 +24,6 @@
             </div>
         </div>
     </div>
-</div>
+</div>  
 
-<?php include_once ROOT_DIR . "views/clients/footer.php" ?>
+<?php include_once ROOT_DIR . "views/admin/footer.php" ?>
