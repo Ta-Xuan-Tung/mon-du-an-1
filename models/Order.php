@@ -5,8 +5,8 @@ class Order extends BaseModel{
     public function all(){
         $sql = "SELECT o.*, fullname, email, address, phone FROM orders o JOIN users u ON o.user_id=u.id ORDER BY o.id DESC";
         $stmt = $this->conn->prepare($sql);
-        $stmt->excute();
-        return $stmt->featchAll(PDO::FETCH_ASSOC);
+        $stmt->execute();
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
     //Chi tiết đơn hàng
