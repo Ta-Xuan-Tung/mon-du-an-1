@@ -92,4 +92,54 @@ class CartController {
 
         return view("clients.carts.checkout", compact('user', 'carts', 'sumPrice')); 
     }
+
+    //thanh toán
+    public function checkOut(){
+        //Lấy thông tin người dùng
+        $user = [
+            'id' => $_POST['id'],
+            'fullname' => $_POST['fullname'],
+            'phone' => $_POST['phone'],
+            'address' => $_POST['address'],
+            'role' => $_SESSION['user']['role'],
+            'active' => $_SESSION['user']['active'],
+        ];
+
+        //Lấy thông tin thanh toán
+        $order =[
+            'user_id' => $_POST['id'],
+            'status' => 1,
+            'payment_method' => $_POST['payment_method'],
+            'total_price' => $this->sumPrice(),
+        ];
+
+        (new User)->update($user['id'], $user);
+        $order_id = (new Order)->create($order);
+        
+        $order_detail = new Order;
+        $carts = $_SESSION['cart'];
+        foreach($carts as $id => $cart){
+            $order_detail=[
+                'order_id' => $order_id,
+                'product_id' => $id,
+                'price' => $cart['price'],
+                'quantity' => $cart['quantity'],
+            ];
+            (new Order)->createOrderDetail($order_detail);
+        }
+        $this->clearCart();//Xóa thong tin giỏ hàng 
+
+        return header("Location: ". ROOT_URL . "?ctl=success");
+    }
+
+    //Xóa giỏ hàng
+    public function clearCart(){
+        unset($_SESSION['cart']);
+        unset($_SESSION['totalQuantity']);
+        unset($_SESSION['URI']);
+    }
+
+    public function success(){
+        return view("clients.carts.success");
+    }
 }

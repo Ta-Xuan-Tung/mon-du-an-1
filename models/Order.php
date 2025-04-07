@@ -1,6 +1,6 @@
 <?php
 
-class Oder extends BaseModel{
+class Order extends BaseModel{
     // lấy toàn bộ đơn hàng
     public function all(){
         $sql = "SELECT o.*, fullname, email, address, phone FROM orders o JOIN users u ON o.user_id=u.id ORDER BY o.id DESC";
@@ -11,9 +11,9 @@ class Oder extends BaseModel{
 
     //Chi tiết đơn hàng
     public function find($id){
-        $sql = "SELECT o.*, fullname, email, address, phone, od.price, od.qunatity, name, image FROM orders  o JOIN users u ON o.user_id=u.id JOIN order_details od ON od.order_id=o.id JOIN products p ON order.product_id=p.id WHERE o.id=:id";
+        $sql = "SELECT o.*, fullname, email, address, phone, od.price, od.quantity, name, image FROM orders  o JOIN users u ON o.user_id=u.id JOIN order_details od ON od.order_id=o.id JOIN products p ON order.product_id=p.id WHERE o.id=:id";
         $stmt = $this->conn->prepare($sql);
-        $stmt->excute(['id' => $id]);
+        $stmt->execute(['id' => $id]);
     }
 
     //Thêm đơn hàng
