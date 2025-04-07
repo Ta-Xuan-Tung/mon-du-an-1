@@ -30,4 +30,5 @@ match ($ctl) {
     'view-cart'=> (new CartController)->viewCart(),
     'delete-cart'=> (new CartController)->deleteProductInCart(),
     'update-cart' => (new CartController)->updateCart(),
+    'checkout'=> (new CartController)->viewCheckout(),
 };

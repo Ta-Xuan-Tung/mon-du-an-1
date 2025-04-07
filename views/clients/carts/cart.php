@@ -53,9 +53,9 @@
                 <button type="submit" class="btn btn-warning">
                     <i class="bi bi-arrow-clockwise"></i>Cập nhật giỏ hàng
                 </button>
-                <button type="submit" class="btn btn-success">
+                <a href="<?= ROOT_URL . '?ctl=checkout' ?>" type="submit" class="btn btn-success">
                     <i class="bi bi-credit-card"></i>Thanh toán
-                </button>
+                </a>
             </div>
         </div>
     </form>

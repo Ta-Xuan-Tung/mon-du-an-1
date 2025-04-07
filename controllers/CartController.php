@@ -87,7 +87,9 @@ class CartController {
         }
 
         $user = $_SESSION['user'];
-        $cart = $_SESSION['cart'];
-        
+        $carts = $_SESSION['cart'] ?? [];
+        $sumPrice = (new CartController)->sumPrice();
+
+        return view("clients.carts.checkout", compact('user', 'carts', 'sumPrice')); 
     }
 }
