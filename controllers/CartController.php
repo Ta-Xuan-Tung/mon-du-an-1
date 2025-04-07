@@ -47,12 +47,47 @@ class CartController {
         return view("clients.carts.cart", compact('carts', 'categories', 'sumPrice')); 
     }
 
-        public function sumPrice(){
-            $carts = $_SESSION['cart'] ?? [];
-            $total = 0;
-            foreach($carts as $cart){
-                $total += $cart['quantity'] * $cart['price'];
-            }
-            return $total;
+    public function sumPrice(){
+        $carts = $_SESSION['cart'] ?? [];
+        $total = 0;
+        foreach($carts as $cart){
+            $total += $cart['quantity'] * $cart['price'];
         }
+        return $total;
+    }
+
+    // xoa sản phẩm trongtrong giỏ hàng
+    public function deleteProductInCart(){
+        //lấy id sản phẩm cần xóa
+        $id = $_GET['id'];
+        //Hủy biến session chứa sản phẩm
+        unset($_SESSION['cart'][$id]);
+        //chuyẻn hướng về giỏ hàng
+        $_SESSION['totalQuantity'] = (new CartController)->totalSumQuantity();
+        return header("Location: ". ROOT_URL . "?ctl=view-cart");
+
+    }
+
+    //Cập nhật giỏ hàng
+    public function updateCart(){
+
+        $quantities = $_POST['quantity'];
+        //cập nhật số lượng
+        foreach($quantities as $id => $qty){
+            $_SESSION['cart'][$id]['quantity'] =$qty;
+        }
+        return header("Location: ". ROOT_URL . "?ctl=view-cart");
+    }
+
+    //Hiển thị thông tin thanh toán
+    public function viewCheckout(){
+        //kiểm tra xem người dùng đã đăng nhập chưa nếu chưa thì quay lại trang login
+        if(!isset($_SESSION['user'])){
+            return header("Location: ". ROOT_URL . "?ctl=login");
+        }
+
+        $user = $_SESSION['user'];
+        $cart = $_SESSION['cart'];
+        
+    }
 }

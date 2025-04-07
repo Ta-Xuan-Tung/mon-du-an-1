@@ -28,4 +28,6 @@ match ($ctl) {
     'logout' => (new AuthControllers)->logout(),
     'add-cart'=> (new CartController)->addToCart(),
     'view-cart'=> (new CartController)->viewCart(),
+    'delete-cart'=> (new CartController)->deleteProductInCart(),
+    'update-cart' => (new CartController)->updateCart(),
 };

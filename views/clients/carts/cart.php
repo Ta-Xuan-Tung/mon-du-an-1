@@ -2,7 +2,7 @@
 
 <div class="container mt-5">
     <h1 class="mb-4">Giỏ hàng của bạn</h1>
-    <form action="update-cart" method="POST">
+    <form action="<?= ROOT_URL . '?ctl=update-cart' ?>" method="post">
         <div class="table-responesive">
             <table class="table table-bordered table-striped align-middle">
                 <thead class="table-primary">
@@ -24,15 +24,15 @@
                                 <img src="<?= $cart['image']?>" alt="" class="img-thumbnail" style="with: 40px; height: 80px;">
                             </td>
                             <td><?= $cart['name'] ?></td>
-                            <td><?= $cart['price'] ?></td>
+                            <td><?= number_format($cart['price']) ?>VNĐ</td>
                             <td>
-                                <input type="number" name="quantity[<?= $stt ?>" class="form-control" value="<?= $cart['quantity'] ?>" min="1" style="width: 80px;">
+                                <input type="number" name="quantity[<?= $id ?>]" class="form-control" value="<?= $cart['quantity'] ?>" min="1" style="width: 80px;">
                             </td>
                             <td><?= number_format($cart['price'] * $cart['quantity']) ?>VNĐ</td>
                             <td>
-                                <button type="button" class="btn btn-danger btn-sm">
+                                <a href="<?= ROOT_URL . '?ctl=delete-cart&id=' . $id?>" class="btn btn-danger btn-sm">
                                     <i class="bi bi-trash"></i>Xóa
-                                </button>
+                                </a>
                             </td>
                         </tr>
                     <?php endforeach ?>
@@ -44,6 +44,19 @@
                     </tr>
                 </tfoot>
             </table>
+        </div>
+        <div class="d-flex justify-content-between mt-4">
+            <a href="shop.thml" class="btn btn-secondary">
+                <i class="bi bi-arrow-lefy"></i>Tiếp tục mua sắm
+            </a>
+            <div>
+                <button type="submit" class="btn btn-warning">
+                    <i class="bi bi-arrow-clockwise"></i>Cập nhật giỏ hàng
+                </button>
+                <button type="submit" class="btn btn-success">
+                    <i class="bi bi-credit-card"></i>Thanh toán
+                </button>
+            </div>
         </div>
     </form>
 </div>

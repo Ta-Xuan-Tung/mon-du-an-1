@@ -21,7 +21,7 @@
                 <div class="product-box">
                     <img src="<?= ROOT_URL . $nike['image'] ?>" alt="Product Image" class="product-img">
                     <div class="product-info">
-                        <a href="">
+                        <a href="<?= ROOT_URL . '?ctl=detail&id=' . $nike['id'] ?>">
                             <h5 class="product-name"><?= $nike['name']?></h5>
                         </a>
                         <div>
@@ -43,7 +43,7 @@
                 <div class="product-box">
                     <img src="<?= ROOT_URL . $adidas['image'] ?>" alt="Product Image" class="product-img">
                     <div class="product-info">
-                        <a href="">
+                        <a href="<?= ROOT_URL . '?ctl=detail&id=' . $adidas['id'] ?>">
                             <h5 class="product-name"><?= $adidas['name']?></h5>
                         </a>
                         <div>

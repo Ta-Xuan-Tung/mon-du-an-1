@@ -7,6 +7,7 @@
     <title>Bán hàng - <?= $title ?? ''?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= ROOT_URL ?>css/detail.css">
 </head>
 
@@ -68,7 +69,7 @@
           </ul>
         </li>
         <li class="nav-item">
-              <a href="<?= ROOT_URL . '?ctl=view-cart' ?>" class="nav-link">Giỏ Hàng (<?= $_SESSION['totalQuantity'] ?>)</a>
+              <a href="<?= ROOT_URL . '?ctl=view-cart' ?>" class="nav-link">Giỏ Hàng (<?= $_SESSION['totalQuantity'] ?? '0' ?>)</a>
         </li>
       </ul>
       <form class="d-flex" role="search">
