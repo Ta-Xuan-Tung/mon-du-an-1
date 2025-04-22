@@ -32,7 +32,7 @@
                             <span class="product-price"><?= number_format($product['price']) ?>đ</span>
                         </div>
                         <div class="product-buttons">
-                            <a class="btn btn-outline-success">Thêm vào giỏ hàng</a>
+                            <a  class="btn btn-outline-success">Thêm vào giỏ hàng</a>
                         </div>
                     </div>
                 </div>

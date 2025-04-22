@@ -52,7 +52,7 @@
         </div>
         <input type="hidden" name="id" value="<?= $product['id'] ?>">
         <div class="mb-3">
-            <button type="submit" class="btn btn-primary">cập nhật</button>
+           <a href="<?= ADMIN_URL . '?ctl=listsp ' ?>"><button type="submit" class="btn btn-primary">cập nhật</button></a>
         </div>
     </form>
 </div>

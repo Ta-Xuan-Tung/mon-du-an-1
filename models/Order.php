@@ -63,4 +63,18 @@ class Order extends BaseModel{
         $stmt = $this->conn->prepare($sql);
         $stmt->execute($data);
     }
+
+    public function count() {
+        $sql = "SELECT COUNT(*) as total FROM orders";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+    }
+
+    public function sumRevenue() {
+        $sql = "SELECT SUM(total_price) as revenue FROM orders WHERE status = 3"; // Chỉ tính đơn hàng "Đã giao hàng"
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute();
+        return $stmt->fetch(PDO::FETCH_ASSOC)['revenue'];
+    }
 }

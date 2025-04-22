@@ -15,5 +15,15 @@
 
             return view('clients.home', compact('nikes', 'adidass', 'title', 'categories'));
         }
+        public function infor() {
+            $title = 'Giới thiệu về website bán giày';
+            $categories = (new Category) ->all(); // lấy danh sách danh mục
+            return view('clients.infor', compact('title', 'categories'));
+        }
+        public function profile() {
+            $title = 'Thông tin người dùng';
+            $categories = (new Category) ->all(); // lấy danh sách danh mục
+            return view('clients.users.profile', compact('title', 'categories'));
+        }
     }
 ?>

@@ -34,4 +34,7 @@ match ($ctl) {
     'view-checkout'=> (new CartController)->viewCheckout(),
     'checkout' => (new CartController)->checkout(),
     'success' => (new CartController)->success(),
+    'infor' => (new HomeController)->infor(),
+    'profile' => (new HomeController)->profile(),
+    'edit-profile' => (new AuthControllers)->updateProfile(), // Thêm dòng này
 };

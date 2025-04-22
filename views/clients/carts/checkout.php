@@ -43,12 +43,6 @@
                                 Thanh toán khi nhận hàng (COD)
                             </label>
                         </div>
-                        <div class="form-check mb-3">
-                            <input type="radio" class="form-check-input" id="vnpay" name="payment_method" value="vnpay">
-                            <label for="vnpay" class="form-check-label">
-                                Thanh toán bằng VNPay
-                            </label>
-                        </div>
                     </div>
                 </div>
                 <!-- Nút xác nhận thanh toán -->

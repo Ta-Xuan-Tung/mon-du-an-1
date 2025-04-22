@@ -26,7 +26,7 @@ class AuthControllers {
 
     //Đăng nhập
     public function login(){
-        //kiểm tra đã đăng nhập chưa
+        // Kiểm tra đã đăng nhập chưa
         if (isset($_SESSION['user'])){
             header('Location: ' . ROOT_URL );
             die;
@@ -35,25 +35,31 @@ class AuthControllers {
         if ($_SERVER['REQUEST_METHOD'] === 'POST'){
             $email = $_POST['email'];
             $password = $_POST['password'];
-
+    
             $user = (new User)->findUserOfEmail($email);
-
-            //kiểm tra mật khẩu
+    
+            // Kiểm tra người dùng có tồn tại không
             if ($user){
-                if(password_verify($password, $user['password'])){
-                    //đăng nhập thành công
-                    $_SESSION['user'] = $user;
-                    //nếu role = admin, vào admin, ngược lại vào trang chủ
-                    if($user['role'] == 'admin'){
-                        header("Location: " . ROOT_URL . "/admin");
+                // Kiểm tra trạng thái active
+                if ($user['active'] == 0) {
+                    $error = "Tài khoản của bạn đã bị khóa!";
+                } else {
+                    // Kiểm tra mật khẩu
+                    if(password_verify($password, $user['password'])){
+                        // Đăng nhập thành công
+                        $_SESSION['user'] = $user;
+                        // Nếu role = admin, vào admin, ngược lại vào trang chủ
+                        if($user['role'] == 'admin'){
+                            header("Location: " . ROOT_URL . "/admin");
+                            die;
+                        }
+                        header("Location: ". ROOT_URL );
                         die;
+                    } else {
+                        $error = "Email hoặc Mật khẩu không đúng!"; 
                     }
-                    header("Location: ". ROOT.URL );
-                        die;
-                }else{
-                    $error = "Email hoặc Mật khẩu không đúng!"; 
                 }
-            }else{
+            } else {
                 $error = "Email hoặc Mật khẩu không đúng!"; 
             }
         }
