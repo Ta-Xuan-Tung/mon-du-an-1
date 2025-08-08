@@ -6,7 +6,7 @@
             <?= $message ?>
         </div>
     <?php endif ?>
-    <form action="<?= ADMIN_URL . '?ctl=updatedm' ?>" method="post">
+    <form action="<?= ADMIN_URL . '?ctl=category-update' ?>" method="post">
         <div class="mb-3">
             <label for="" class="form-label">Tên danh mục</label>
             <input type="text" name="cate_name" class="form-control" value="<?= $category['cate_name'] ?>">

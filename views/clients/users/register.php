@@ -9,23 +9,23 @@
                 <form action="<?= ROOT_URL . '?ctl=register'?>" method="POST">
                     <div class="mb-3">
                         <label for="fullname" class="form-label">Họ Tên</label>
-                        <input type="text" class="form-control" name="fullname" placeholde="Nhập họ tên">
+                        <input type="text" class="form-control" name="fullname" placeholder="Nhập họ tên">
                     </div>
                     <div class="mb-3">
                         <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" placeholde="Nhập email">
+                        <input type="email" class="form-control" name="email" placeholder="Nhập email">
                     </div>
                     <div class="mb-3">
                         <label for="password" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" name="password" placeholde="Nhập mật khẩu"> 
+                        <input type="password" class="form-control" name="password" placeholder="Nhập mật khẩu">
                     </div>
                     <div class="mb-3">
                         <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="text" class="form-control" name="phone" placeholde="Nhập số điện thoại">
+                        <input type="text" class="form-control" name="phone" placeholder="Nhập số điện thoại">
                     </div>
                     <div class="mb-3">
                         <label for="address" class="form-label">Địa chỉ</label>
-                        <input type="text" class="form-control" name="address" placeholde="Nhập địa chỉ">
+                        <input type="text" class="form-control" name="address" placeholder="Nhập địa chỉ">
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Đăng ký</button>
                 </form>

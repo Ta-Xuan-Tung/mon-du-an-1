@@ -1,44 +1,77 @@
 <?php
 
 class CartController {
+
+    
     //Thêm vào giỏ hàng
-    public function addToCart(){
-        // Tạo một giỏ hàng
-        $carts = $_SESSION['cart'] ?? [];
+  public function addToCart() {
+    $carts = $_SESSION['cart'] ?? [];
 
-        //Lấy sản phẩm theo id để thêm vào giỏ hàng
-        $id = $_GET['id'];
+    $id = $_GET['id'] ?? $_POST['id'] ?? null;
+    $size = $_GET['size'] ?? $_POST['size'] ?? null;
 
-        $product = (new Product)->find($id);
+    error_log("Add to cart - ID: $id, Size: $size");
 
-        if(isset($carts[$id])) {
-            $carts[$id]['quantity'] += 1;
-        }else{
-            $carts[$id]=[
-                'name'=> $product['name'],
-                'image'=> $product['image'],
-                'price'=> $product['price'],
-                'quantity'=> 1,
-            ];
-        }
-        //Lưu giỏ hàng vào session
-        $_SESSION['cart']= $carts;
-
-        $url = $_SESSION['URI'];
-
-        return header("Location: " . $url);
+    if (!$id) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'ID sản phẩm không hợp lệ!'];
+        error_log("Add to cart failed: No ID provided");
+        return header("Location: " . ($_SESSION['URI'] ?? ROOT_URL . "?ctl=detail&id=$id"));
     }
 
-    //Tính tổng số lượng sản phẩm để hiển thị giỏ hàng
-    public function totalSumQuantity(){
-        $carts = $_SESSION['cart'] ?? [];
-        $total = 0;
-        foreach($carts as $cart){
-            $total += $cart['quantity'];
-        }
-        return $total;
+    $product = (new Product)->find($id);
+    if (!$product) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Sản phẩm không tồn tại!'];
+        error_log("Add to cart failed: Product $id not found");
+        return header("Location: " . ($_SESSION['URI'] ?? ROOT_URL));
     }
 
+    $sizes = (new Product)->getSizes($id);
+    error_log("Sizes for product $id: " . json_encode($sizes));
+    if (empty($sizes)) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Không có size nào khả dụng cho sản phẩm này!'];
+        return header("Location: " . ($_SESSION['URI'] ?? ROOT_URL . "?ctl=detail&id=$id"));
+    }
+
+    $sizeAvailable = false;
+    $availableQuantity = 0;
+    foreach ($sizes as $availableSize) {
+        error_log("Checking size: " . $availableSize['size'] . ", Quantity: " . $availableSize['quantity']);
+        if ($availableSize['size'] === $size) {
+            $availableQuantity = $availableSize['quantity'];
+            if ($availableQuantity > 0) {
+                $sizeAvailable = true;
+            }
+            break;
+        }
+    }
+
+    if (!$size || !$sizeAvailable) {
+        $_SESSION['message'] = ['type' => 'error', 'text' => 'Size không hợp lệ hoặc đã hết hàng!'];
+        error_log("Add to cart failed: Size $size not available for product $id, Sizes: " . json_encode($sizes));
+        return header("Location: " . ($_SESSION['URI'] ?? ROOT_URL . "?ctl=detail&id=$id"));
+    }
+
+    $cartKey = $id . '_' . $size;
+    if (isset($carts[$cartKey])) {
+        if ($carts[$cartKey]['quantity'] < $availableQuantity) {
+            $carts[$cartKey]['quantity'] += 1;
+        }
+    } else {
+        $carts[$cartKey] = [
+            'name' => $product['name'],
+            'image' => $product['image'],
+            'price' => $product['price'],
+            'quantity' => 1,
+            'size' => $size
+        ];
+    }
+
+    $_SESSION['cart'] = $carts;
+    $_SESSION['totalQuantity'] = array_sum(array_column($carts, 'quantity'));
+    $_SESSION['message'] = ['type' => 'success', 'text' => 'Thêm vào giỏ hàng thành công!'];
+    error_log("Add to cart success: Product $id, Size $size, Quantity " . $carts[$cartKey]['quantity']);
+    return header("Location: " . ROOT_URL . "?ctl=view-cart");
+}
     public function viewCart(){
         $carts = $_SESSION['cart'] ?? [];
         $sumPrice = (new CartController)->sumPrice();
@@ -55,29 +88,57 @@ class CartController {
         }
         return $total;
     }
+    public function totalSumQuantity()
+    {
+        $carts = $_SESSION['cart'] ?? [];
+        $totalQuantity = 0;
 
-    // xoa sản phẩm trongtrong giỏ hàng
-    public function deleteProductInCart(){
-        //lấy id sản phẩm cần xóa
-        $id = $_GET['id'];
-        //Hủy biến session chứa sản phẩm
-        unset($_SESSION['cart'][$id]);
-        //chuyẻn hướng về giỏ hàng
-        $_SESSION['totalQuantity'] = (new CartController)->totalSumQuantity();
-        return header("Location: ". ROOT_URL . "?ctl=view-cart");
+        foreach ($carts as $cart) {
+            $totalQuantity += $cart['quantity'];
+        }
 
+        return $totalQuantity;
     }
+    // xoa sản phẩm trongtrong giỏ hàng
+    public function deleteProductInCart() {
+    $id = $_GET['id'];
+    $size = $_GET['size'] ?? null; // Thêm size từ URL (nếu có)
+    $cartKey = $id . '_' . $size; // Tạo key đầy đủ
+
+    if (isset($_SESSION['cart'][$cartKey])) {
+        unset($_SESSION['cart'][$cartKey]);
+    }
+    $_SESSION['totalQuantity'] = $this->totalSumQuantity();
+    return header("Location: " . ROOT_URL . "?ctl=view-cart");
+}
 
     //Cập nhật giỏ hàng
-    public function updateCart(){
+    public function updateCart() {
+    $quantities = $_POST['quantity'];
+    $carts = $_SESSION['cart'] ?? [];
 
-        $quantities = $_POST['quantity'];
-        //cập nhật số lượng
-        foreach($quantities as $id => $qty){
-            $_SESSION['cart'][$id]['quantity'] =$qty;
+    foreach ($quantities as $key => $qty) {
+        if (isset($carts[$key])) {
+            $id = explode('_', $key)[0];
+            $size = $carts[$key]['size'];
+            $sizes = (new Product)->getSizes($id);
+            $availableQuantity = 0;
+            foreach ($sizes as $availableSize) {
+                if ($availableSize['size'] === $size) {
+                    $availableQuantity = $availableSize['quantity'];
+                    break;
+                }
+            }
+            if ($qty <= $availableQuantity) {
+                $carts[$key]['quantity'] = $qty;
+            } else {
+                $carts[$key]['quantity'] = $availableQuantity; // Giới hạn tối đa
+            }
         }
-        return header("Location: ". ROOT_URL . "?ctl=view-cart");
     }
+    $_SESSION['cart'] = $carts;
+    return header("Location: " . ROOT_URL . "?ctl=view-cart");
+}
 
     //Hiển thị thông tin thanh toán
     public function viewCheckout(){
@@ -94,43 +155,49 @@ class CartController {
     }
 
     //thanh toán
-    public function checkOut(){
-        //Lấy thông tin người dùng
-        $user = [
-            'id' => $_POST['id'],
-            'fullname' => $_POST['fullname'],
-            'phone' => $_POST['phone'],
-            'address' => $_POST['address'],
-            'role' => $_SESSION['user']['role'],
-            'active' => $_SESSION['user']['active'],
+    public function checkOut() {
+    $user = [
+        'id' => $_POST['id'],
+        'fullname' => $_POST['fullname'],
+        'phone' => $_POST['phone'],
+        'address' => $_POST['address'],
+        'role' => $_SESSION['user']['role'],
+        'active' => $_SESSION['user']['active'],
+    ];
+
+    $order = [
+        'user_id' => $_POST['id'],
+        'status' => 1,
+        'payment_method' => $_POST['payment_method'],
+        'total_price' => $this->sumPrice(),
+    ];
+
+    (new User)->update($user['id'], $user);
+    $order_id = (new Order)->create($order);
+    
+    $order_detail = new Order;
+    $carts = $_SESSION['cart'];
+    foreach ($carts as $key => $cart) {
+        $parts = explode('_', $key);
+        $id = $parts[0];
+        $size = $cart['size'];
+        $order_detail = [
+            'order_id' => $order_id,
+            'product_id' => $id,
+            'size' => $size, // Thêm size
+            'price' => $cart['price'],
+            'quantity' => $cart['quantity'],
         ];
+        (new Order)->createOrderDetail($order_detail);
 
-        //Lấy thông tin thanh toán
-        $order =[
-            'user_id' => $_POST['id'],
-            'status' => 1,
-            'payment_method' => $_POST['payment_method'],
-            'total_price' => $this->sumPrice(),
-        ];
-
-        (new User)->update($user['id'], $user);
-        $order_id = (new Order)->create($order);
-        
-        $order_detail = new Order;
-        $carts = $_SESSION['cart'];
-        foreach($carts as $id => $cart){
-            $order_detail=[
-                'order_id' => $order_id,
-                'product_id' => $id,
-                'price' => $cart['price'],
-                'quantity' => $cart['quantity'],
-            ];
-            (new Order)->createOrderDetail($order_detail);
-        }
-        $this->clearCart();//Xóa thong tin giỏ hàng 
-
-        return header("Location: ". ROOT_URL . "?ctl=success");
+        // Giảm số lượng trong product_sizes
+        // Sửa lại cho đúng
+$stmt = (new Product)->conn->prepare("UPDATE product_sizes SET quantity = quantity - :qty WHERE product_id = :id AND size = :size");
+        $stmt->execute(['qty' => $cart['quantity'], 'id' => $id, 'size' => $size]);
     }
+    $this->clearCart();
+    return header("Location: " . ROOT_URL . "?ctl=success");
+}
 
     //Xóa giỏ hàng
     public function clearCart(){

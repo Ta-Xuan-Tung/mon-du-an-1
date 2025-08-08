@@ -6,7 +6,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bán hàng - <?= $title ?? ''?></title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"> <!-- Thêm CDN Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/v4-shims.min.css"> <!-- Tùy chọn: hỗ trợ icon cũ nếu cần -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/brands.min.css"> <!-- Tùy chọn: hỗ trợ icon thương hiệu -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
     <link rel="stylesheet" href="<?= ROOT_URL ?>css/detail.css">
     <style>
@@ -57,7 +59,7 @@
                         <a class="nav-link" href="<?= ROOT_URL . '?ctl=infor' ?>">Giới thiệu</a>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Danh mục sản phẩm">
                             Sản phẩm
                         </a>
                         <ul class="dropdown-menu">
@@ -67,7 +69,7 @@
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" title="Tài khoản người dùng">
                             <i class="fa-solid fa-user"></i>
                             <?= $_SESSION['user']['fullname'] ?? '' ?>
                         </a>
@@ -98,5 +100,12 @@
                     <button class="btn btn-outline-success" type="submit">Search</button>
                 </form>
             </div>
+            <div class="social-icons ms-3">
+                <a href="https://facebook.com" class="text-white me-4 fs-4" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                <a href="https://instagram.com" class="text-white me-4 fs-4" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="https://tiktok.com" class="text-white me-4 fs-4" aria-label="TikTok"><i class="fab fa-tiktok"></i></a>
+                <a href="https://youtube.com" class="text-white fs-4" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+            </div>
         </div>
     </nav>
+</div>

@@ -67,7 +67,7 @@
                             <span class="product-price"><?= number_format($nike['price']) ?>đ</span>
                         </div>
                         <div class="product-buttons">
-                            <a class="btn btn-outline-success">Thêm vào giỏ hàng</a>
+                           <a href="<?= ROOT_URL . '?ctl=detail&id=' . $nike['id'] ?>" class="btn btn-outline-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>
@@ -84,13 +84,13 @@
                     <img src="<?= ROOT_URL . $adidas['image'] ?>" alt="Product Image" class="product-img">
                     <div class="product-info">
                         <a href="<?= ROOT_URL . '?ctl=detail&id=' . $adidas['id'] ?>">
-<h5 class="product-name"><?= $adidas['name']?></h5>
+                            <h5 class="product-name"><?= $adidas['name']?></h5>
                         </a>
                         <div>
                             <span class="product-price"><?= number_format($adidas['price']) ?>đ</span>
                         </div>
                         <div class="product-buttons">
-                            <a class="btn btn-outline-success">Thêm vào giỏ hàng</a>
+                            <a href="<?= ROOT_URL . '?ctl=detail&id=' . $adidas['id'] ?>" class="btn btn-outline-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>

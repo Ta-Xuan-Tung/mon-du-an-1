@@ -1,14 +1,16 @@
 <?php
-// class baseModel chứa thông tin kết nối
-class BaseModel{
-    //biên $conn lưu trữ thông tin kết nối
+class BaseModel {
     public $conn = null;
-    //hàm khởi tạo
-    public function __construct(){
+
+    public function __construct() {
         try {
             $this->conn = new PDO("mysql:host=" . HOST . "; dbname=" . DBNAME . "; charset=utf8; port=" . PORT, USERNAME, PASSWORD);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            error_log("Kết nối CSDL thành công");
         } catch (PDOException $e) {
-            echo "loi ket noi du lieu: " . $e->getMessage();
+            error_log("Lỗi kết nối CSDL: " . $e->getMessage());
+            header("Location: " . ROOT_URL . "?ctl=error&msg=" . urlencode("Lỗi kết nối CSDL: " . $e->getMessage()));
+            exit();
         }
     }
 }

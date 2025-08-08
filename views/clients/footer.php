@@ -33,7 +33,6 @@
         <a href="#" class="text-white me-4 fs-4"><i class="fab fa-tiktok"></i></a>
         <a href="#" class="text-white fs-4"><i class="fab fa-youtube"></i></a>
       </div>
-
     </div>
 
     <!-- Dòng kẻ và bản quyền -->
@@ -45,9 +44,6 @@
     </div>
   </div>
 </footer>
-
-<!-- Font Awesome -->
-<script src="https://kit.fontawesome.com/yourkitid.js" crossorigin="anonymous"></script>
 
 <!-- Bootstrap Bundle -->
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

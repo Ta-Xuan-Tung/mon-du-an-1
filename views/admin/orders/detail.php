@@ -1,85 +1,94 @@
-<?php include_once ROOT_DIR . "views/admin/header.php" ?>
+<?php include_once ROOT_DIR . "views/admin/header.php"; ?>
 
-<div class="container mt-5">
-    <div class="card shadow-lg">
-        <div class="card-header bg-primary text-white">
-            <h4 class="mb-0">Chi tiết đơn hàng</h4>
+<div class="container mt-4">
+    <h3>Chi tiết Đơn hàng #<?= $order['id'] ?></h3>
+
+    <?php
+    // **SỬA LỖI Ở ĐÂY: Thêm đoạn code này để hiển thị thông báo**
+    if (!empty($message)) :
+    ?>
+        <div class="alert alert-success mt-3">
+            <?= htmlspecialchars($message) ?>
         </div>
-        <div class="card-body">
-            <!-- Thông tin đơn hàng -->
-            <div class="mb-4">
-                <h5>Mã đơn hàng: <span class="text-info"><?= $order['id'] ?></span></h5>
-                <p><strong>Ngày đặt hàng: </strong><span class="text-muted"><?= date('d-m-Y H:i:s', strtotime($order['created_at'])) ?></span></p>
+    <?php endif; ?>
+
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Thông tin Khách hàng</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Tên:</strong> <?= htmlspecialchars($order['fullname'] ?? 'Khách vãng lai') ?></li>
+                    <li class="list-group-item"><strong>Email:</strong> <?= htmlspecialchars($order['email'] ?? 'N/A') ?></li>
+                    <li class="list-group-item"><strong>Số điện thoại:</strong> <?= htmlspecialchars($order['phone'] ?? 'N/A') ?></li>
+                    <li class="list-group-item"><strong>Địa chỉ giao hàng:</strong> <?= htmlspecialchars($order['address'] ?? 'N/A') ?></li>
+                </ul>
             </div>
 
-            <!-- Thông tin của khách hàng -->
-            <div class="mb-4">
-                <h5 class="text-primary">Thông tin khách hàng</h5>
-                <p><strong>Họ và tên: </strong><span><?= $order['fullname'] ?></span></p>
-                <p><strong>Email: </strong><span><?= $order['email'] ?></span></p>
-                <p><strong>Điện thoại: </strong><span><?= $order['phone'] ?></span></p>
-                <p><strong>Địa chỉ: </strong><span><?= $order['address'] ?></span></p>
-            </div>
-
-            <!-- Danh sách sản phẩm -->
-            <div class="mb-4">
-                <h5 class="text-primary">Danh sách sản phẩm</h5>
-                <table class="table table-striped table-bordered">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Sản phẩm</th>
-                            <th>Hình ảnh</th>
-                            <th>Số lượng</th>
-                            <th>Giá</th>
-                            <th>Thành tiền</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php foreach($order_detail as $stt => $detail) : ?>
-                            <tr>
-                                <td><?= $stt+1 ?></td>
-                                <td><?= $detail['name'] ?></td>
-                                <td><img src="<?= ROOT_URL . $detail['image'] ?>" alt="Product Image" class="img-fluid" style="max-width: 50px;"></td>
-                                <td><?= $detail['quantity'] ?></td>
-                                <td><?= number_format($detail['price']) ?> VNĐ</td>
-                                <td><?= number_format($detail['price'] * $detail['quantity']) ?> VNĐ</td>
-                            </tr>
-                        <?php endforeach ?>
-                    </tbody>
-                    <tfoot>
-                        <tr>
-                            <th colspan="4" class="text-end">Tổng cộng: </th>
-                            <th class="fw-bold"><?= number_format($order['total_price']) ?> VNĐ</th>
-                        </tr>
-                    </tfoot>
-                </table>
-            </div>
-
-            <!-- Cập nhật trạng thái đơn hàng -->
-            <div class="mb-4">
-                <h5 class="text-primary">Cập nhật trạng thái đơn hàng</h5>
-                <form action="" method="post">
-                    <div class="mb-3">
-                        <label for="orderStatus" class="form-label">Trạng thái đơn hàng</label>
-                        <select name="status" id="orderStatus" class="form-select">
-                            <?php foreach($status as $key => $value) : ?>
-                                <option value="<?= $key ?>" <?= $order['status'] == $key ? 'selected' : '' ?>>
-                                    <?= $value ?>
-                                </option>
-                            <?php endforeach ?>
-                        </select>
-                    </div>
-                    <button type="submit" class="btn btn-success">Cập nhật trạng thái</button>
-                </form>
+            <div class="card mt-4">
+                <div class="card-header">
+                    <strong>Thông tin Đơn hàng</strong>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><strong>Ngày đặt:</strong> <?= date('d/m/Y H:i', strtotime($order['created_at'])) ?></li>
+                    <li class="list-group-item"><strong>Phương thức thanh toán:</strong> <?= htmlspecialchars($order['payment_method']) ?></li>
+                    <li class="list-group-item"><strong>Tổng giá trị:</strong> <span class="text-danger h5"><?= number_format($order['total_price'], 0, ',', '.') ?> VNĐ</span></li>
+                </ul>
             </div>
         </div>
 
-        <!-- Nút thao tác -->
-        <div class="d-flex justify-content-between card-footer">
-            <a href="<?= ADMIN_URL . '?ctl=list-order' ?>" class="btn btn-secondary">Quay lại danh sách đơn hàng</a>
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header">
+                    <strong>Cập nhật trạng thái</strong>
+                </div>
+                <div class="card-body">
+                    <form action="<?= ADMIN_URL . '?ctl=order-update-status&id=' . $order['id'] ?>" method="POST">
+                        <div class="input-group">
+                            <select name="status" class="form-select">
+                                <?php foreach ($status_list as $key => $value) : ?>
+                                    <option value="<?= $key ?>" <?= ($key == $order['status']) ? 'selected' : '' ?>>
+                                        <?= $value ?>
+                                    </option>
+                                <?php endforeach; ?>
+                            </select>
+                            <button type="submit" class="btn btn-primary">Cập nhật</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <strong>Danh sách Sản phẩm</strong>
+                </div>
+                <div class="card-body">
+                    <table class="table">
+                        <tbody>
+                            <?php foreach ($order_details as $item): ?>
+                                <tr>
+                                    <td><img src="<?= ROOT_URL . $item['image'] ?>" width="60"></td>
+                                    <td>
+                                        <?= htmlspecialchars($item['name']) ?><br>
+                                        <small class="text-muted">Size: <?= htmlspecialchars($item['size']) ?></small>
+                                    </td>
+                                    <td>x <?= $item['quantity'] ?></td>
+                                    <td class="text-end"><?= number_format($item['price'], 0, ',', '.') ?> VNĐ</td>
+                                </tr>
+                            <?php endforeach; ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </div>
+    </div>
+
+    <div class="mt-4">
+        <a href="<?= ADMIN_URL . '?ctl=order-list' ?>" class="btn btn-secondary">
+            <i class="bi bi-arrow-left"></i> Quay lại danh sách
+        </a>
     </div>
 </div>
 
-<?php include_once ROOT_DIR . "views/admin/footer.php" ?>
+<?php include_once ROOT_DIR . "views/admin/footer.php"; ?>
