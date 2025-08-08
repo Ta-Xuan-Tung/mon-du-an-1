@@ -27,7 +27,9 @@
 
                 <div class="dropdown text-end">
                     <a href="#" class="d-block link-dark text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
-                        <img src="https://i.pinimg.com/736x/e0/f3/32/e0f332d6990a8a654999a1e0a29a4336.jpg" alt="mdo" width="32" height="32" class="rounded-circle">
+
+                        <img src="<?= ROOT_URL . ($_SESSION['user']['avatar'] ?? 'images/logo.png') ?>" alt="avatar" width="32" height="32" class="rounded-circle">
+
                         <span><?= $_SESSION['user']['fullname'] ?? 'Admin' ?></span>
                     </a>
                     <ul class="dropdown-menu text-small">
@@ -42,4 +44,3 @@
     </header>
 
     <main class="container">
-        ```
