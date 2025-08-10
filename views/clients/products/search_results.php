@@ -1,11 +1,9 @@
-<?php 
-// 1. Bắt đầu bằng việc include header
-include_once ROOT_DIR . "views/clients/header.php"; 
-?>
+<?php include_once ROOT_DIR . 'views/clients/header.php'; ?>
 
 <div class="container mt-5">
-
-    <h2 class="mb-4"><?= htmlspecialchars($category['cate_name'] ?? 'Tất cả sản phẩm') ?></h2>
+    <h2 class="mb-4">
+        Kết quả tìm kiếm cho: <span class="text-primary">"<?= htmlspecialchars($keyword) ?>"</span>
+    </h2>
     
     <div class="row g-4">
         <?php if (!empty($products)) : ?>
@@ -31,15 +29,13 @@ include_once ROOT_DIR . "views/clients/header.php";
             <?php endforeach ?>
         <?php else : ?>
             <div class="col-12">
-                <div class="alert alert-info">
-                    Danh mục <strong><?= htmlspecialchars($category['cate_name'] ?? '') ?></strong> hiện không có sản phẩm nào.
+                <div class="alert alert-warning text-center">
+                    <p class="h4">Không tìm thấy sản phẩm nào</p>
+                    <p>Chúng tôi không tìm thấy sản phẩm nào khớp với từ khóa "<?= htmlspecialchars($keyword) ?>". Vui lòng thử lại với từ khóa khác.</p>
                 </div>
             </div>
         <?php endif ?>
     </div>
 </div>
 
-<?php 
-// 3. Kết thúc bằng việc include footer
-include_once ROOT_DIR . "views/clients/footer.php"; 
-?>
+<?php include_once ROOT_DIR . 'views/clients/footer.php'; ?>

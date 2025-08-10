@@ -153,4 +153,23 @@ class Product extends BaseModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
+
+    // File: models/Product.php
+
+// ... (bên trong class Product) ...
+
+/**
+ * Tìm kiếm sản phẩm theo tên
+ */
+public function searchByName($keyword) {
+    $sql = "SELECT p.*, c.cate_name 
+            FROM products p 
+            JOIN categories c ON p.category_id = c.id 
+            WHERE p.name LIKE :keyword";
+            
+    $stmt = $this->conn->prepare($sql);
+    // Thêm dấu % để tìm kiếm gần đúng
+    $stmt->execute(['keyword' => '%' . $keyword . '%']);
+    return $stmt->fetchAll(PDO::FETCH_ASSOC);
+}
 }

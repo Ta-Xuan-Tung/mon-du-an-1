@@ -6,11 +6,19 @@
          */
         public function index() {
             $product = new Product;
+            
+            // Lấy sản phẩm cho từng danh mục
             $nikes = $product->listProductInCategoryHome(1);
             $adidass = $product->listProductInCategoryHome(2);
+
+            // ĐÃ THÊM: Lấy sản phẩm cho danh mục MLB (giả sử ID là 3)
+            $mlbs = $product->listProductInCategoryHome(3); 
+
             $title = 'Trang chủ | Website bán giày';
             $categories = (new Category)->all();
-            return view('clients.home', compact('nikes', 'adidass', 'title', 'categories'));
+
+            // ĐÃ THÊM: Truyền biến $mlbs ra view
+            return view('clients.home', compact('nikes', 'adidass', 'mlbs', 'title', 'categories'));
         }
 
         /**
@@ -51,10 +59,9 @@
         }
         
         /**
-         * Hiển thị chi tiết một đơn hàng cho người dùng (HÀM BẠN ĐANG THIẾU)
+         * Hiển thị chi tiết một đơn hàng cho người dùng
          */
         public function orderDetail() {
-            // Yêu cầu đăng nhập
             if (!isset($_SESSION['user'])) {
                 header('Location: ' . ROOT_URL . '?ctl=login');
                 die;
@@ -66,9 +73,8 @@
             $orderModel = new Order();
             $order = $orderModel->find($order_id);
 
-            // KIỂM TRA BẢO MẬT: Đảm bảo người dùng chỉ có thể xem đơn hàng của chính mình
+            // Kiểm tra bảo mật: Đảm bảo người dùng chỉ xem đơn hàng của chính mình
             if (!$order || $order['user_id'] != $user_id) {
-                // Nếu không phải, chuyển về trang lịch sử đơn hàng
                 header('Location: ' . ROOT_URL . '?ctl=order-history');
                 die;
             }

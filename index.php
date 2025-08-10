@@ -50,6 +50,16 @@ match ($ctl) {
     'order-history' => (new HomeController)->orderHistory(),
     'order-detail'  => (new HomeController)->orderDetail(),
     
+    // **THÊM DÒNG NÀY VÀO**
+    'search'       => (new ProductController)->search(),
+
+    'register'     => (new AuthControllers)->register(),
+    // ...
+    // **THÊM DÒNG NÀY VÀO**
+    'all-products' => (new ProductController)->allProducts(),
+
+    'register'     => (new AuthControllers)->register(),
+    // ...
     // --- Mặc định ---
     default        => (new HomeController)->index(),
 };

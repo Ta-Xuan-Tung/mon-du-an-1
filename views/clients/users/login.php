@@ -1,40 +1,53 @@
-<?php include_once ROOT_DIR . "views/clients/header.php" ?>
+<?php 
+// Đảm bảo đường dẫn này đúng với cấu trúc của bạn
+include_once ROOT_DIR . 'views/clients/header.php'; 
+?>
 
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-6">
-            <!-- Hiển thị thông báo thành công -->
-            <?php if (isset($message) && is_array($message) && !empty($message['text'])): ?>
-                <div class="alert alert-<?= htmlspecialchars($message['type'] ?? 'success') ?> alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($message['text']) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php endif ?>
+<div class="container" style="min-height: 550px;">
+    <div class="row justify-content-center mt-5">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h3 class="card-title text-center mb-4">Đăng Nhập Tài Khoản</h3>
 
-            <!-- Hiển thị thông báo lỗi -->
-            <?php if (isset($error) && is_array($error) && !empty($error['text'])): ?>
-                <div class="alert alert-<?= htmlspecialchars($error['type'] ?? 'danger') ?> alert-dismissible fade show" role="alert">
-                    <?= htmlspecialchars($error['text']) ?>
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-            <?php endif ?>
+                    <?php if (!empty($error)) : ?>
+                        <div class="alert alert-danger">
+                            <?= htmlspecialchars($error) ?>
+                        </div>
+                    <?php endif; ?>
+                    
+                    <?php if (!empty($message)) : ?>
+                        <div class="alert alert-success">
+                            <?= htmlspecialchars($message) ?>
+                        </div>
+                    <?php endif; ?>
 
-            <div class="container">
-                <h3>Đăng nhập</h3>
-                <form action="<?= ROOT_URL . '?ctl=login' ?>" method="POST">
-                    <div class="mb-3">
-                        <label for="loginEmail" class="form-label">Email</label>
-                        <input type="email" class="form-control" name="email" id="loginEmail" placeholder="Nhập email">
+                    <form action="<?= ROOT_URL . '?ctl=login' ?>" method="POST">
+                        <div class="mb-3">
+                            <label for="email" class="form-label">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" placeholder="Nhập email của bạn" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="password" class="form-label">Mật khẩu</label>
+                            <input type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu" required>
+                        </div>
+                        <div class="d-grid">
+                            <button type="submit" class="btn btn-primary btn-lg">Đăng nhập</button>
+                        </div>
+                    </form>
+
+                    <!-- **ĐÃ THÊM PHẦN ĐĂNG KÝ VÀO ĐÂY** -->
+                    <div class="text-center mt-4">
+                        <p class="mb-0">Bạn chưa có tài khoản?</p>
+                        <a href="<?= ROOT_URL . '?ctl=register' ?>">Đăng ký ngay tại đây</a>
                     </div>
-                    <div class="mb-3">
-                        <label for="loginPassword" class="form-label">Mật khẩu</label>
-                        <input type="password" class="form-control" name="password" id="loginPassword" placeholder="Nhập mật khẩu">
-                    </div>
-                    <button type="submit" class="btn btn-primary w-100">Đăng nhập</button>
-                </form>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<?php include_once ROOT_DIR . "views/clients/footer.php" ?>
+<?php 
+// Đảm bảo đường dẫn này đúng với cấu trúc của bạn
+include_once ROOT_DIR . 'views/clients/footer.php'; 
+?>

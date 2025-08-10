@@ -1,11 +1,7 @@
-<?php 
-// 1. Bắt đầu bằng việc include header
-include_once ROOT_DIR . "views/clients/header.php"; 
-?>
+<?php include_once ROOT_DIR . 'views/clients/header.php'; ?>
 
 <div class="container mt-5">
-
-    <h2 class="mb-4"><?= htmlspecialchars($category['cate_name'] ?? 'Tất cả sản phẩm') ?></h2>
+    <h2 class="mb-4 text-center section-title">Tất cả sản phẩm</h2>
     
     <div class="row g-4">
         <?php if (!empty($products)) : ?>
@@ -31,15 +27,29 @@ include_once ROOT_DIR . "views/clients/header.php";
             <?php endforeach ?>
         <?php else : ?>
             <div class="col-12">
-                <div class="alert alert-info">
-                    Danh mục <strong><?= htmlspecialchars($category['cate_name'] ?? '') ?></strong> hiện không có sản phẩm nào.
-                </div>
+                <div class="alert alert-info">Chưa có sản phẩm nào.</div>
             </div>
         <?php endif ?>
     </div>
+
+    <!-- PHẦN PHÂN TRANG -->
+    <nav aria-label="Page navigation" class="mt-5">
+        <ul class="pagination justify-content-center">
+            <?php if ($totalPages > 1): ?>
+                <li class="page-item <?= ($page <= 1) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= ROOT_URL . '?ctl=all-products&page=' . ($page - 1) ?>">Previous</a>
+                </li>
+                <?php for ($i = 1; $i <= $totalPages; $i++): ?>
+                    <li class="page-item <?= ($i == $page) ? 'active' : '' ?>">
+                        <a class="page-link" href="<?= ROOT_URL . '?ctl=all-products&page=' . $i ?>"><?= $i ?></a>
+                    </li>
+                <?php endfor; ?>
+                <li class="page-item <?= ($page >= $totalPages) ? 'disabled' : '' ?>">
+                    <a class="page-link" href="<?= ROOT_URL . '?ctl=all-products&page=' . ($page + 1) ?>">Next</a>
+                </li>
+            <?php endif; ?>
+        </ul>
+    </nav>
 </div>
 
-<?php 
-// 3. Kết thúc bằng việc include footer
-include_once ROOT_DIR . "views/clients/footer.php"; 
-?>
+<?php include_once ROOT_DIR . 'views/clients/footer.php'; ?>
