@@ -15,72 +15,75 @@ class AdminCategoryController {
      */
     public function index() {
         $categories = (new Category)->all();
-        $message = session_flash('message');
-        return view('admin.categories.list', compact('categories', 'message'));
+        // Sửa lại để view có thể nhận cả 2 loại message
+        $message_success = session_flash('message_success');
+        $message_error = session_flash('message_error');
+        return view('admin.categories.list', compact('categories', 'message_success', 'message_error'));
     }
 
     /**
-     * Hiển thị form thêm mới danh mục
+     * Hiển thị form thêm mới
      */
     public function create() {
         return view('admin.categories.add');
     }
 
     /**
-     * Lưu dữ liệu từ form thêm mới vào CSDL
+     * Lưu dữ liệu mới
      */
     public function store() {
         $data = $_POST;
         (new Category)->create($data);
 
-        $_SESSION['message'] = "Thêm danh mục thành công";
-        // SỬA LẠI: Chuyển hướng về trang danh sách danh mục
+        $_SESSION['message_success'] = "Thêm danh mục thành công";
+        // Sửa lại route cho đúng
         header("location: " . ADMIN_URL . "?ctl=category-list");
         die;
     }
 
     /**
-     * Hiển thị form sửa danh mục
+     * Hiển thị form sửa
      */
     public function edit() {
         $id = $_GET['id'];
         $category = (new Category)->find($id);
-        $message = session_flash('message');
-        return view('admin.categories.edit', compact('category', 'message'));
+        return view('admin.categories.edit', compact('category'));
     }
 
     /**
-     * Cập nhật dữ liệu từ form sửa vào CSDL
+     * Cập nhật dữ liệu
      */
     public function update() {
         $data = $_POST;
         (new Category)->update($data['id'], $data);
         
-        $_SESSION['message'] = "Cập nhật dữ liệu thành công";
-        // SỬA LẠI: Chuyển hướng về trang danh sách danh mục sau khi sửa
+        $_SESSION['message_success'] = "Cập nhật dữ liệu thành công";
+        // Sửa lại route cho đúng
         header("location: " . ADMIN_URL . '?ctl=category-list');
         die;
     }
 
     /**
-     * Xóa danh mục
+     * Xử lý xóa danh mục (Đã hoàn thiện)
      */
     public function delete() {
         $id = $_GET['id'];
-        
-        // Kiểm tra xem có sản phẩm nào thuộc danh mục này không
-        $products = (new Product)->listProductInCategory($id);
+        $categoryModel = new Category();
 
-        if ($products) {
-            $_SESSION['message'] = "Không thể xóa vì danh mục đang chứa sản phẩm.";
+        // Đếm TẤT CẢ sản phẩm (không phân biệt status)
+        $productCount = $categoryModel->countProducts($id);
+
+        if ($productCount > 0) {
+            // SỬA LỖI Ở ĐÂY: Dùng message_error cho thông báo lỗi (màu đỏ)
+            $_SESSION['message_error'] = "Không thể xóa! Danh mục này vẫn còn ($productCount) sản phẩm.";
         } else {
-            // Nếu không có sản phẩm nào, tiến hành xóa
-            (new Category)->delete($id);
-            $_SESSION['message'] = "Xóa danh mục thành công";
+            // Dùng message_success cho thông báo thành công (màu xanh)
+            $categoryModel->delete($id);
+            $_SESSION['message_success'] = 'Xóa danh mục thành công!';
         }
-
-        // SỬA LẠI: Chuyển hướng về trang danh sách danh mục trong mọi trường hợp
-        header("location: " . ADMIN_URL . "?ctl=category-list");
+        
+        // SỬA LỖI Ở ĐÂY: Chuyển hướng về trang danh sách đúng
+        header('Location: ' . ADMIN_URL . '?ctl=category-list');
         die;
     }
 }

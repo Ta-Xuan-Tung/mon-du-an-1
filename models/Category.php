@@ -49,6 +49,16 @@
             $stmt = $this->conn->prepare($sql);
             $stmt -> execute(['id' => $id]);
         }
+/**
+ * Đếm TẤT CẢ sản phẩm thuộc về một danh mục, không phân biệt trạng thái
+ * ĐÃ SỬA: Bỏ điều kiện "AND status = 'active'"
+ */
+public function countProducts($category_id) {
+    $sql = "SELECT COUNT(*) as total FROM products WHERE category_id = :category_id";
+    $stmt = $this->conn->prepare($sql);
+    $stmt->execute(['category_id' => $category_id]);
+    return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
+}
     }
 
 ?>

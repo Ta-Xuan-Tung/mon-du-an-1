@@ -60,6 +60,11 @@ match ($ctl) {
 
     'register'     => (new AuthControllers)->register(),
     // ...
+     // **THÊM DÒNG NÀY VÀO**
+    'cancel-order' => (new HomeController)->cancelOrder(),
+
+    'all-products' => (new ProductController)->allProducts(),
+    // ...
     // --- Mặc định ---
     default        => (new HomeController)->index(),
 };
