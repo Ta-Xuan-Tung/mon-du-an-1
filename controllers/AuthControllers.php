@@ -79,10 +79,17 @@ class AuthControllers {
     }
 
     /**
-     * Đăng xuất
+     * Đăng xuất (ĐÃ SỬA LỖI GIỎ HÀNG)
      */
     public function logout() {
+        // Xóa thông tin người dùng
         unset($_SESSION['user']);
+
+        // **SỬA LỖI Ở ĐÂY: Xóa cả thông tin giỏ hàng**
+        unset($_SESSION['cart']);
+        unset($_SESSION['totalQuantity']); // Xóa cả tổng số lượng nếu có
+
+        // Chuyển hướng người dùng về trang chủ
         header('Location: ' . ROOT_URL);
         die;
     }

@@ -158,14 +158,20 @@ class Product extends BaseModel {
 
 // ... (bên trong class Product) ...
 
+// File: models/Product.php
+
+// ... (các hàm khác giữ nguyên) ...
+
 /**
- * Tìm kiếm sản phẩm theo tên
+ * Tìm kiếm sản phẩm theo tên HOẶC theo tên danh mục (Phiên bản nâng cấp)
  */
 public function searchByName($keyword) {
     $sql = "SELECT p.*, c.cate_name 
             FROM products p 
             JOIN categories c ON p.category_id = c.id 
-            WHERE p.name LIKE :keyword";
+            WHERE 
+                p.name LIKE :keyword      -- Tìm trong tên sản phẩm
+                OR c.cate_name LIKE :keyword"; 
             
     $stmt = $this->conn->prepare($sql);
     // Thêm dấu % để tìm kiếm gần đúng

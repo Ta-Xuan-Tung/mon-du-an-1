@@ -200,3 +200,27 @@ footer a:hover {
     border-radius: 8px;
     padding: 5px;
 }
+/* ===================================================================
+   SỬA LỖI GIAO DIỆN: ĐỒNG BỘ CHIỀU CAO CARD SẢN PHẨM
+   =================================================================== */
+
+.product-box {
+    display: flex;       /* Bật chế độ Flexbox */
+    flex-direction: column; /* Sắp xếp các phần tử theo chiều dọc */
+    height: 100%;        /* Đảm bảo card chiếm toàn bộ chiều cao của ô chứa nó */
+}
+
+.product-box .product-info {
+    flex-grow: 1;        /* Cho phép phần thông tin tự giãn ra để lấp đầy không gian */
+    display: flex;
+    flex-direction: column;
+}
+
+.product-box .product-name {
+    /* Đặt chiều cao tối thiểu cho tên sản phẩm (đủ cho 2 dòng) */
+    min-height: 48px; 
+}
+
+.product-box .product-buttons {
+    margin-top: auto;    /* Đẩy nút bấm xuống dưới cùng của card */
+}

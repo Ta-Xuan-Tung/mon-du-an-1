@@ -54,11 +54,10 @@
                 </ul>
 
            <!-- THANH TÌM KIẾM ĐÃ ĐƯỢC SỬA LẠI -->
-<form class="col-12 col-lg-auto mb-3 mb-lg-0 me-lg-3" role="search" action="<?= ROOT_URL ?>" method="GET">
-    <!-- Thêm input ẩn để chỉ định controller -->
+<form class="d-flex me-3" role="search" action="<?= ROOT_URL ?>" method="GET">
     <input type="hidden" name="ctl" value="search">
-    <!-- Thêm name="keyword" để gửi từ khóa đi -->
-    <input type="search" class="form-control" name="keyword" placeholder="Tìm kiếm sản phẩm..." aria-label="Search">
+    <input class="form-control me-2" type="search" name="keyword" placeholder="Tìm sản phẩm..." aria-label="Search">
+    <button class="btn btn-outline-primary" type="submit">Tìm</button>
 </form>
 
                 <div class="d-flex align-items-center">

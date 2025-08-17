@@ -47,9 +47,14 @@
                 </div>
                 <!-- Nút xác nhận thanh toán -->
                 <div class="text-end">
-                    <button type="submit" class="btn btn-success btn-lg">
-                        <i class="bi bi-check-circle"></i> Xác nhận thanh toán
-                    </button>
+                    <div class="d-flex justify-content-between align-items-center mt-4">
+    <a href="<?= ROOT_URL ?>?ctl=view-cart" class="btn btn-outline-secondary">
+        <i class="bi bi-arrow-left"></i> Quay lại giỏ hàng
+    </a>
+    <button type="submit" class="btn btn-success btn-lg">
+        <i class="bi bi-check-circle"></i> Xác nhận thanh toán
+    </button>
+</div>
                 </div>
             </form>
         </div>

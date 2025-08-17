@@ -140,9 +140,11 @@ class CartController {
     return header("Location: " . ROOT_URL . "?ctl=view-cart");
 }
 
-    //Hiển thị thông tin thanh toán
+    /**
+     * Hiển thị thông tin thanh toán (ĐÃ SỬA LỖI)
+     */
     public function viewCheckout(){
-        //kiểm tra xem người dùng đã đăng nhập chưa nếu chưa thì quay lại trang login
+        // Kiểm tra xem người dùng đã đăng nhập chưa
         if(!isset($_SESSION['user'])){
             return header("Location: ". ROOT_URL . "?ctl=login");
         }
@@ -151,9 +153,12 @@ class CartController {
         $carts = $_SESSION['cart'] ?? [];
         $sumPrice = (new CartController)->sumPrice();
 
-        return view("clients.carts.checkout", compact('user', 'carts', 'sumPrice')); 
-    }
+        // **SỬA LỖI Ở ĐÂY: Thêm dòng này để lấy danh sách danh mục**
+        $categories = (new Category)->all();
 
+        // **SỬA LỖI Ở ĐÂY: Bổ sung biến $categories vào hàm view()**
+        return view("clients.carts.checkout", compact('user', 'carts', 'sumPrice', 'categories')); 
+    }
     //thanh toán
     public function checkOut() {
     $user = [
