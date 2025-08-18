@@ -41,13 +41,34 @@ function session_flash($key) {
     return $message;
 }
 
-/*
- * GHI CHÚ: Hàm getOrderStatus($status) đã được loại bỏ.
+/**
+ * **HÀM BỊ THIẾU ĐÃ ĐƯỢỢC BỔ SUNG**
  *
- * Lý do: Logic để chuyển đổi trạng thái đơn hàng đã được định nghĩa trong mảng
- * $status_details của class Order (trong file models/Order.php).
+ * Hàm xử lý việc upload file lên server.
  *
- * Để lấy tên trạng thái, hãy dùng: (new Order)->status_details[$status]
- *
- * Việc này giúp tránh lặp lại code và đảm bảo logic được quản lý ở một nơi duy nhất.
+ * @param string $ten_file_input Tên của thẻ <input type="file"> trong form.
+ * @param string $thu_muc_luu    Đường dẫn đến thư mục sẽ lưu file.
+ * @return string Đường dẫn tương đối đến file đã lưu, hoặc chuỗi rỗng nếu có lỗi.
  */
+function save_file($ten_file_input, $thu_muc_luu) {
+    // Kiểm tra xem file có được tải lên không và có lỗi không
+    if (!isset($_FILES[$ten_file_input]) || $_FILES[$ten_file_input]['error'] != UPLOAD_ERR_OK) {
+        return '';
+    }
+
+    $file_tai_len = $_FILES[$ten_file_input];
+
+    // Chỉ xử lý nếu file có dung lượng lớn hơn 0
+    if ($file_tai_len['size'] > 0) {
+        $ten_file = basename($file_tai_len['name']);
+        $duong_dan_day_du = ROOT_DIR . $thu_muc_luu . $ten_file;
+        
+        // Di chuyển file từ thư mục tạm vào thư mục lưu trữ chính
+        if (move_uploaded_file($file_tai_len['tmp_name'], $duong_dan_day_du)) {
+            // Trả về đường dẫn tương đối để lưu vào database
+            return $thu_muc_luu . $ten_file;
+        }
+    }
+    
+    return ''; // Trả về chuỗi rỗng nếu có lỗi hoặc không có file
+}

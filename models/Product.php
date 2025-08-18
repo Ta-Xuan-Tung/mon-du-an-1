@@ -130,20 +130,30 @@ class Product extends BaseModel {
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    // Đếm tổng số sản phẩm để phân trang
+  /**
+     * Đếm tổng số sản phẩm CÓ DANH MỤC HỢP LỆ (PHIÊN BẢN CUỐI CÙNG)
+     */
     public function count() {
-        $sql = "SELECT COUNT(*) as total FROM products";
+        // THÊM JOIN ĐỂ ĐẢM BẢO CHỈ ĐẾM SẢN PHẨM CÓ DANH MỤC TỒN TẠI
+        $sql = "SELECT COUNT(DISTINCT p.id) as total 
+                FROM products p
+                JOIN categories c ON p.category_id = c.id
+                WHERE p.status = 1"; // Vẫn giữ lại để đảm bảo chỉ đếm sản phẩm đang hoạt động
+
         $stmt = $this->conn->prepare($sql);
         $stmt->execute();
         return $stmt->fetch(PDO::FETCH_ASSOC)['total'];
     }
 
-    // Lấy sản phẩm theo từng trang
+    /**
+     * Lấy sản phẩm CÓ DANH MỤC HỢP LỆ theo từng trang
+     */
     public function listByPage($page, $perPage) {
         $offset = ($page - 1) * $perPage;
         $sql = "SELECT p.*, c.cate_name 
                 FROM products p 
                 JOIN categories c ON p.category_id = c.id 
+                WHERE p.status = 1
                 ORDER BY p.id DESC 
                 LIMIT :perPage OFFSET :offset";
                 
@@ -153,29 +163,17 @@ class Product extends BaseModel {
         $stmt->execute();
         return $stmt->fetchAll(PDO::FETCH_ASSOC);
     }
-
-    // File: models/Product.php
-
-// ... (bên trong class Product) ...
-
-// File: models/Product.php
-
-// ... (các hàm khác giữ nguyên) ...
-
-/**
- * Tìm kiếm sản phẩm theo tên HOẶC theo tên danh mục (Phiên bản nâng cấp)
- */
-public function searchByName($keyword) {
-    $sql = "SELECT p.*, c.cate_name 
-            FROM products p 
-            JOIN categories c ON p.category_id = c.id 
-            WHERE 
-                p.name LIKE :keyword      -- Tìm trong tên sản phẩm
-                OR c.cate_name LIKE :keyword"; 
-            
-    $stmt = $this->conn->prepare($sql);
-    // Thêm dấu % để tìm kiếm gần đúng
-    $stmt->execute(['keyword' => '%' . $keyword . '%']);
-    return $stmt->fetchAll(PDO::FETCH_ASSOC);
-}
+    
+    public function searchByName($keyword) {
+        $sql = "SELECT p.*, c.cate_name 
+                FROM products p 
+                JOIN categories c ON p.category_id = c.id 
+                WHERE 
+                    p.name LIKE :keyword
+                    OR c.cate_name LIKE :keyword"; 
+                    
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute(['keyword' => '%' . $keyword . '%']);
+        return $stmt->fetchAll(PDO::FETCH_ASSOC);
+    }
 }

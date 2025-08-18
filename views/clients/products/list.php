@@ -13,12 +13,15 @@ include_once ROOT_DIR . "views/clients/header.php";
                 <div class="col-md-3">
                     <div class="product-box">
                         <a href="<?= ROOT_URL . '?ctl=detail&id=' . $product['id'] ?>">
-                            <img src="<?= ROOT_URL . $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-img">
+                            <div class="product-img-container">
+                                 <img src="<?= ROOT_URL . $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="product-img">
+                            </div>
                         </a>
                         <div class="product-info">
-                            <a href="<?= ROOT_URL . '?ctl=detail&id=' . $product['id'] ?>">
+                            <a href="<?= ROOT_URL . '?ctl=detail&id=' . $product['id'] ?>" style="text-decoration: none !important;">
                                 <h5 class="product-name"><?= htmlspecialchars($product['name']) ?></h5>
                             </a>
+                            
                             <div>
                                 <span class="product-price"><?= number_format($product['price']) ?>đ</span>
                             </div>

@@ -8,6 +8,7 @@
         </div>
         <div class="mb-3">
             <button type="submit" class="btn btn-primary">Thêm mới</button>
+              <a href="<?= ADMIN_URL ?>?ctl=category-list" class="btn btn-secondary">Hủy</a>
         </div>
     </form>
 </div>

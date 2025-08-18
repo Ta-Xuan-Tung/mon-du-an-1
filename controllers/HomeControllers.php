@@ -118,4 +118,29 @@ class HomeController {
         header('Location: ' . ROOT_URL . '?ctl=order-history');
         die;
     }
+     public function listNews() {
+        $newsModel = new News();
+        $newsList = $newsModel->all();
+        $categories = (new Category)->all();
+
+        return view('clients.news.list', [
+            'newsList' => $newsList,
+            'categories' => $categories
+        ]);
+    }
+
+    /**
+     * Hiển thị chi tiết một bài viết
+     */
+    public function newsDetail() {
+        $id = $_GET['id'];
+        $newsModel = new News();
+        $news = $newsModel->find($id);
+        $categories = (new Category)->all();
+
+        return view('clients.news.detail', [
+            'news' => $news,
+            'categories' => $categories
+        ]);
+    }
 }

@@ -6,14 +6,25 @@ include_once ROOT_DIR . "views/clients/header.php";
 <div class="container mt-5">
     <div class="row">
         <div class="col-md-6">
-            <img src="<?= ROOT_URL . $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid rounded shadow-sm">
+             <div class="product-img-container">
+                <img src="<?= ROOT_URL . $product['image'] ?>" alt="<?= htmlspecialchars($product['name']) ?>" class="img-fluid rounded shadow-sm">
+            </div>
         </div>
 
         <div class="col-md-6">
             <h1 class="display-5"><?= htmlspecialchars($product['name']) ?></h1>
             <p class="text-muted">
                 Trạng thái: 
-                <?php if($product['quantity'] > 0) : ?>
+                <?php 
+                $totalQuantity = 0;
+                $sizes = (new Product)->getSizes($product['id']);
+                foreach ($sizes as $s) {
+                    if ($s['quantity'] > 0) {
+                        $totalQuantity += $s['quantity'];
+                    }
+                }
+                ?>
+                <?php if($totalQuantity > 0) : ?>
                     <span class="badge bg-success">Còn hàng</span>
                 <?php else : ?>
                     <span class="badge bg-danger">Hết hàng</span>
@@ -24,11 +35,11 @@ include_once ROOT_DIR . "views/clients/header.php";
                 <?= number_format($product['price']) ?> VNĐ
             </h3>
             
-            <p><strong>Số lượng còn trong kho:</strong> <?= $product['quantity'] ?></p>
+            <p><strong>Số lượng còn trong kho:</strong> <?= $totalQuantity ?></p>
             
             <p class="mt-3">
                 <strong>Mô tả ngắn:</strong><br>
-                <?= nl2br(htmlspecialchars($product['description'])) // Dùng nl2br để giữ các dấu xuống dòng ?>
+                <?= nl2br(htmlspecialchars($product['description'])) ?>
             </p>
 
             <div class="mt-4">
@@ -39,11 +50,7 @@ include_once ROOT_DIR . "views/clients/header.php";
                         <label for="size-select" class="form-label"><strong>Chọn size:</strong></label>
                         <select id="size-select" name="size" class="form-select" style="width: 200px;" required>
                             <?php 
-                            // Gợi ý: Phần logic lấy size này nên được xử lý trong ProductController
-                            // và truyền ra view qua một biến riêng, ví dụ: $available_sizes
-                            $sizes = (new Product)->getSizes($product['id']);
-                            
-                            if (empty($sizes)) {
+                            if (empty($sizes) || $totalQuantity <= 0) {
                                 echo "<option value='' disabled>Hết size</option>";
                             } else {
                                 foreach ($sizes as $s) :
@@ -56,7 +63,7 @@ include_once ROOT_DIR . "views/clients/header.php";
                         </select>
                     </div>
 
-                    <button type="submit" class="btn btn-primary btn-lg" <?= empty($sizes) ? 'disabled' : '' ?>>
+                    <button type="submit" class="btn btn-primary btn-lg" <?= (empty($sizes) || $totalQuantity <= 0) ? 'disabled' : '' ?>>
                         <i class="bi bi-cart-plus"></i> Thêm vào giỏ hàng
                     </button>
                 </form>
@@ -68,7 +75,7 @@ include_once ROOT_DIR . "views/clients/header.php";
         <div class="col">
             <h2 class="section-title">Mô tả chi tiết</h2>
             <div class="product-content">
-                <?= $product['content'] // Giả sử content đã được làm sạch hoặc là HTML an toàn ?>
+                <?= $product['content'] ?>
             </div>
         </div>
     </div>
@@ -77,21 +84,23 @@ include_once ROOT_DIR . "views/clients/header.php";
 <div class="container mt-5">
     <h2 class="section-title text-center">Sản phẩm liên quan</h2>
     <div class="row g-4">
-        <?php foreach($productReleads as $related_product) : // Đổi tên biến để tránh nhầm lẫn ?>
+        <?php foreach($productReleads as $related_product) : ?>
             <div class="col-md-3">
                 <div class="product-box">
                     <a href="<?= ROOT_URL . '?ctl=detail&id=' . $related_product['id'] ?>">
-                        <img src="<?= ROOT_URL . $related_product['image'] ?>" alt="<?= htmlspecialchars($related_product['name']) ?>" class="product-img">
+                         <div class="product-img-container">
+                            <img src="<?= ROOT_URL . $related_product['image'] ?>" alt="<?= htmlspecialchars($related_product['name']) ?>" class="product-img">
+                        </div>
                     </a>
                     <div class="product-info">
-                        <a href="<?= ROOT_URL . '?ctl=detail&id=' . $related_product['id'] ?>">
+                        <a href="<?= ROOT_URL . '?ctl=detail&id=' . $related_product['id'] ?>" style="text-decoration: none !important;">
                             <h5 class="product-name"><?= htmlspecialchars($related_product['name']) ?></h5>
                         </a>
                         <div>
                             <span class="product-price"><?= number_format($related_product['price']) ?>đ</span>
                         </div>
                         <div class="product-buttons">
-                            <a href="<?= ROOT_URL . '?ctl=detail&id=' . $related_product['id'] ?>" class="btn btn-outline-success">Xem chi tiết</a>
+                            <a href="<?= ROOT_URL . '?ctl=detail&id=' . $related_product['id'] ?>" class="btn btn-outline-primary">Xem chi tiết</a>
                         </div>
                     </div>
                 </div>

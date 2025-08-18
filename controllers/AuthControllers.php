@@ -114,4 +114,40 @@ class AuthControllers {
         header('Location: '. ROOT_URL . '?ctl=profile');
         die;
     }
+    /**
+     * THÊM HÀM MỚI: Xử lý đổi mật khẩu
+     */
+    public function changePassword() {
+        if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+            $user_id = $_SESSION['user']['id'];
+            $old_password = $_POST['old_password'];
+            $new_password = $_POST['new_password'];
+            $confirm_password = $_POST['confirm_password'];
+
+            // 1. Kiểm tra mật khẩu mới có khớp không
+            if ($new_password !== $confirm_password) {
+                $_SESSION['message_error'] = "Mật khẩu mới không khớp!";
+                header('Location: ' . ROOT_URL . '?ctl=profile');
+                die;
+            }
+
+            $userModel = new User();
+            $user = $userModel->find($user_id);
+
+            // 2. Kiểm tra mật khẩu cũ có đúng không
+            if (!password_verify($old_password, $user['password'])) {
+                $_SESSION['message_error'] = "Mật khẩu cũ không chính xác!";
+                header('Location: ' . ROOT_URL . '?ctl=profile');
+                die;
+            }
+
+            // 3. Nếu mọi thứ hợp lệ, cập nhật mật khẩu mới
+            $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
+            $userModel->updatePassword($user_id, $hashed_password);
+
+            $_SESSION['message_success'] = "Đổi mật khẩu thành công!";
+            header('Location: ' . ROOT_URL . '?ctl=profile');
+            die;
+        }
+    }
 }

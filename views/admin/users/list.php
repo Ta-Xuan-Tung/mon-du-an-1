@@ -4,8 +4,9 @@
     <h3>Quản lý Người dùng</h3>
 
     <?php if (!empty($message)) : ?>
-        <div class="alert alert-success mt-3">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
             <?= htmlspecialchars($message) ?>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
     <?php endif; ?>
 
@@ -17,7 +18,7 @@
                 <th scope="col">Email</th>
                 <th scope="col">Vai trò</th>
                 <th scope="col">Trạng thái</th>
-                <th scope="col" style="width: 20%;">Hành động</th>
+                <th scope="col" style="width: 15%;">Hành động</th>
             </tr>
         </thead>
         <tbody>
@@ -42,23 +43,18 @@
                     </td>
                     <td>
                         <?php
-                            // Không cho phép admin tự vô hiệu hóa tài khoản của chính mình
-                            if ($_SESSION['user']['id'] == $user['id']) {
-                                echo '<button class="btn btn-sm btn-secondary" disabled>Không thể thay đổi</button>';
+                        // Vẫn giữ lại cải tiến: Nếu là admin đang đăng nhập, ô này sẽ để trống
+                        if ($_SESSION['user']['id'] != $user['id']) {
+                            if ($user['active'] == 1) {
+                                $url = ADMIN_URL . '?ctl=user-update-status&id=' . $user['id'] . '&status=0';
+                                $confirm_text = 'Bạn có chắc muốn vô hiệu hóa tài khoản này?';
+                                echo '<a href="' . $url . '" class="btn btn-sm btn-danger" onclick="return confirm(\'' . $confirm_text . '\')">Vô hiệu hóa</a>';
                             } else {
-                                // Nếu tài khoản đang hoạt động, hiển thị nút "Vô hiệu hóa"
-                                if ($user['active'] == 1) {
-                                    $url = ADMIN_URL . '?ctl=user-update-status&id=' . $user['id'] . '&status=0';
-                                    $confirm_text = 'Bạn có chắc muốn vô hiệu hóa tài khoản này?';
-                                    echo '<a href="' . $url . '" class="btn btn-sm btn-danger" onclick="return confirm(\'' . $confirm_text . '\')">Vô hiệu hóa</a>';
-                                } 
-                                // Ngược lại, hiển thị nút "Kích hoạt"
-                                else {
-                                    $url = ADMIN_URL . '?ctl=user-update-status&id=' . $user['id'] . '&status=1';
-                                    $confirm_text = 'Bạn có chắc muốn kích hoạt lại tài khoản này?';
-                                    echo '<a href="' . $url . '" class="btn btn-sm btn-success" onclick="return confirm(\'' . $confirm_text . '\')">Kích hoạt</a>';
-                                }
+                                $url = ADMIN_URL . '?ctl=user-update-status&id=' . $user['id'] . '&status=1';
+                                $confirm_text = 'Bạn có chắc muốn kích hoạt lại tài khoản này?';
+                                echo '<a href="' . $url . '" class="btn btn-sm btn-success" onclick="return confirm(\'' . $confirm_text . '\')">Kích hoạt</a>';
                             }
+                        }
                         ?>
                     </td>
                 </tr>

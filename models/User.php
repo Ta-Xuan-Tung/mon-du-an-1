@@ -72,4 +72,15 @@ class User extends BaseModel {
         $stmt = $this->conn->prepare($sql);
         $stmt->execute(['id' => $id]);
     }
+     /**
+     * THÊM HÀM MỚI: Cập nhật chỉ mật khẩu cho người dùng
+     */
+    public function updatePassword($id, $new_password) {
+        $sql = "UPDATE users SET password = :password WHERE id = :id";
+        $stmt = $this->conn->prepare($sql);
+        $stmt->execute([
+            'id' => $id,
+            'password' => $new_password
+        ]);
+    }
 }
